@@ -93,6 +93,13 @@ This project is built to demonstrate core Operating System and Concurrency conce
 
 ---
 
+🤝 The Team
+
+1.Aaryamaan Rai
+2.Lavya Jain
+
+---
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
