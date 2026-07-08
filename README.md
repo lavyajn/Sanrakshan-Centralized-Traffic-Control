@@ -45,6 +45,25 @@ The project demonstrates practical Operating System concepts including:
 
 ---
 
+# 📑 Table of Contents
+
+- [🚀 Overview](#-overview)
+- [🎥 Live Demonstration](#-live-demonstration)
+- [✨ Features](#-features)
+- [🏗 High-Level Architecture](#-high-level-architecture)
+- [🚄 Train Dispatch Workflow](#-train-dispatch-workflow)
+- [🔒 Concurrency & Safety](#-concurrency--safety)
+- [🔄 Dynamic Route Recalculation](#-dynamic-route-recalculation)
+- [📷 Screenshots](#-screenshots)
+- [⚙ Technology Stack](#-technology-stack)
+- [📂 Project Structure](#-project-structure)
+- [🚀 Getting Started](#-getting-started)
+- [🧪 Operating System Concepts Demonstrated](#-operating-system-concepts-demonstrated)
+- [🎯 Future Improvements](#-future-improvements)
+- [👨‍💻 Team](#-team)
+- [📄 License](#-license)
+
+
 # 🎥 Live Demonstration
 
 <p align="center">
@@ -65,7 +84,6 @@ The project demonstrates practical Operating System concepts including:
 - Double-track support
 - Bidirectional routing
 
----
 
 ## 🚄 Intelligent Train Dispatch
 
@@ -89,7 +107,6 @@ Local
 Freight
 ```
 
----
 
 ## 🧠 Graph Routing
 
@@ -102,7 +119,6 @@ Automatically computes
 - Source → Destination route
 - Updated route after failures
 
----
 
 ## ⚡ Concurrent Simulation
 
@@ -118,7 +134,6 @@ Track segments become shared resources protected through
 
 allowing collision-free concurrent execution.
 
----
 
 ## 🛡 Kavach Style Collision Prevention
 
@@ -131,7 +146,6 @@ When two trains request the same track
 
 No two trains occupy the same track simultaneously.
 
----
 
 ## 🚧 Dynamic Track Failure
 
@@ -149,7 +163,6 @@ If no alternate path exists
 - Journey stops safely
 - Event is logged
 
----
 
 ## 🐘 Wildlife Temporary Speed Restriction
 
@@ -161,7 +174,6 @@ When activated
 - Journey resumes after clearance
 - Dashboard updates instantly
 
----
 
 ## 🚨 Emergency Stop
 
@@ -173,7 +185,6 @@ Global Emergency Stop immediately
 
 Simulation can later resume safely.
 
----
 
 ## 📡 Live Telemetry
 
@@ -201,7 +212,6 @@ The browser communicates with the backend using persistent WebSocket connections
 
 The Crow C++ server manages the simulation engine which internally coordinates routing, scheduling, multithreaded train execution and telemetry updates before broadcasting the current system state back to the dashboard.
 
----
 
 # 🚄 Train Dispatch Workflow
 
@@ -220,7 +230,6 @@ Train creation follows the complete dispatch pipeline
 7. Simulation begins
 8. Live telemetry continuously updates dashboard
 
----
 
 # 🔒 Concurrency & Safety
 
@@ -239,7 +248,6 @@ If the resource is unavailable
 - Lock retried
 - Journey continues once released
 
----
 
 # 🔄 Dynamic Route Recalculation
 
@@ -267,7 +275,6 @@ If no route exists the train safely terminates its journey.
 <img src="docs/screenshots/dashboard.png" width="95%">
 </p>
 
----
 
 ## Dispatch Panel
 
@@ -275,7 +282,6 @@ If no route exists the train safely terminates its journey.
 <img src="docs/screenshots/dispatch.png" width="70%">
 </p>
 
----
 
 ## Wildlife Event
 
@@ -283,7 +289,6 @@ If no route exists the train safely terminates its journey.
 <img src="docs/screenshots/wildlife.png" width="95%">
 </p>
 
----
 
 ## Engineering Mode
 
@@ -291,7 +296,6 @@ If no route exists the train safely terminates its journey.
 <img src="docs/screenshots/engineering.png" width="70%">
 </p>
 
----
 
 ## Emergency Stop
 
@@ -299,7 +303,6 @@ If no route exists the train safely terminates its journey.
 <img src="docs/screenshots/emergency_stop.png" width="95%">
 </p>
 
----
 
 ## Live Railway Simulation
 
@@ -321,7 +324,6 @@ If no route exists the train safely terminates its journey.
 - WebSockets
 - nlohmann/json
 
----
 
 ## Frontend
 
@@ -329,7 +331,6 @@ If no route exists the train safely terminates its journey.
 - CSS3
 - Vanilla JavaScript
 
----
 
 ## Concurrency
 
@@ -338,7 +339,6 @@ If no route exists the train safely terminates its journey.
 - std::unique_lock
 - std::atomic
 
----
 
 ## Algorithms
 
@@ -388,7 +388,6 @@ git clone https://github.com/yourusername/SANRAKSHAN.git
 cd SANRAKSHAN
 ```
 
----
 
 ## Build Backend
 
@@ -404,7 +403,6 @@ cmake ..
 make
 ```
 
----
 
 ## Start Server
 
@@ -412,7 +410,6 @@ make
 ./sanrakshan_server
 ```
 
----
 
 ## Launch Frontend
 
@@ -430,7 +427,6 @@ localhost:8080
 
 through WebSockets.
 
----
 
 # 🧪 Operating System Concepts Demonstrated
 
@@ -443,7 +439,6 @@ through WebSockets.
 - Atomic Operations
 - Event Driven Systems
 
----
 
 # 🎯 Future Improvements
 
@@ -452,7 +447,6 @@ through WebSockets.
 - Passenger scheduling
 - Timetable optimization
 - AI dispatch assistant
-- Deadlock visualization
 - Persistent save/load
 - Railway analytics dashboard
 
