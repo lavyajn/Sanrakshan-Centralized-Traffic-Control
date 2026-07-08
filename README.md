@@ -23,7 +23,6 @@ real-time WebSockets and an interactive control panel.
 
 </p>
 
----
 
 # 🚀 Overview
 
@@ -346,7 +345,6 @@ If no route exists the train safely terminates its journey.
 - Priority Scheduling
 - Graph Traversal
 
----
 
 # 📂 Project Structure
 
@@ -458,7 +456,6 @@ through WebSockets.
 
 **Aaryamaan Rai**
 
----
 
 # 📄 License
 
