@@ -310,13 +310,6 @@ If no route exists the train safely terminates its journey.
 
 </p>
 
-<p align="center">
-
-<img src="docs/screenshots/train3.png" width="48%">
-<img src="docs/screenshots/train4.png" width="48%">
-
-</p>
-
 ---
 
 # ⚙ Technology Stack
