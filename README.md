@@ -1,105 +1,486 @@
-# 🚆 Sanrakshan CTC: Real-Time Railway Interlocking Engine
+<p align="center">
+<img src="docs/banner.png" width="100%">
+</p>
 
-Sanrakshan (Centralized Traffic Control) is a high-performance, multithreaded railway traffic control simulator. Built with a C++ backend and a dynamic Vanilla JavaScript frontend, it simulates complex railway networks, autonomous train routing, and advanced safety interlocking systems via real-time WebSockets.
+<h1 align="center">
+🚆 SANRAKSHAN CTC
+</h1>
 
----
+<p align="center">
+<b>Concurrent Railway Traffic Management & Simulation System</b>
+<br>
+A multithreaded railway traffic control simulator built with modern C++,
+real-time WebSockets and an interactive control panel.
+</p>
 
-## ✨ Key Features
+<p align="center">
 
-- **TCAS / Kavach (Anti-Collision System):** Prevents catastrophic train collisions using OS-level Non-Blocking Mutual Exclusion (`try_lock`). Trains autonomously yield execution time and halt if a track segment is occupied.
-- **Wildlife TSR (Temporary Speed Restrictions):** Dispatchers can flag tracks with wildlife hazards (🐘). The C++ physics engine dynamically throttles train speed, and the UI uses raw geometric pixel-snatching to perfectly freeze the animation mid-track.
-- **Zero-Latency Telemetry HUD:** Click on any moving train to view real-time WebSocket telemetry, including exact track location, speed parameters, and safety statuses.
-- **Global E-Stop:** An instantaneous system-wide halt utilizing C++ `std::atomic` flags to safely pause all active multithreaded train engines without introducing race conditions.
-- **Deadlock Demonstration Mode:** Includes a purpose-built feature to visually demonstrate the **Dining Philosophers Problem** and **Circular Wait** conditions by intentionally forcing a system deadlock on a triangular route.
+<img src="https://img.shields.io/badge/C%2B%2B-17-blue.svg">
+<img src="https://img.shields.io/badge/Multithreading-std::thread-success">
+<img src="https://img.shields.io/badge/WebSocket-Live-orange">
+<img src="https://img.shields.io/badge/Platform-Linux-lightgrey">
+<img src="https://img.shields.io/badge/License-MIT-green">
 
----
-
-## 🛠️ Tech Stack
-
-### Backend
-- C++ (Standard 17)
-- Multithreading (`std::thread`, `std::mutex`, `std::unique_lock`, `std::atomic`)
-- [Crow](https://crowcpp.org/) — C++ Microframework for HTTP & WebSockets
-- JSON (`nlohmann/json`)
-
-### Frontend
-- Vanilla JavaScript (ES6)
-- HTML5 / CSS3 (CSS Variables, Keyframe Animations, Dynamic DOM Manipulation)
-- WebSocket API for bi-directional data streaming
+</p>
 
 ---
 
-## 📋 Prerequisites
+# 🚀 Overview
 
-Ensure your system has the following installed before compiling:
+Sanrakshan CTC is a real-time railway traffic control simulator inspired by modern Centralized Traffic Control (CTC) systems.
 
-- A C++17 compatible compiler (GCC, Clang, or MSVC)
-- CMake (Version 3.15 or higher)
-- Make (Linux/macOS)
-- A modern web browser (Chrome, Edge, Firefox)
+The simulator models an operational railway network where multiple trains execute concurrently while competing for shared railway infrastructure.
+
+Instead of being a simple animation, every train runs as an independent thread. Shared railway tracks are synchronized using mutexes to prevent collisions while maintaining maximum throughput.
+
+The project demonstrates practical Operating System concepts including:
+
+- Multithreading
+- Thread Synchronization
+- Resource Allocation
+- Deadlock Avoidance
+- Graph Algorithms
+- Event Driven Simulation
+- Real-Time WebSocket Communication
 
 ---
 
-## 🚀 Installation & Setup
+# 🎥 Live Demonstration
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/yourusername/sanrakshan-ctc.git
-cd sanrakshan-ctc
+<p align="center">
+<img src="docs/demo.gif" width="100%">
+</p>
+
+---
+
+# ✨ Features
+
+## 🚉 Railway Network
+
+- Automatic railway yard generation
+- Add new stations
+- Delete stations
+- Lay new railway tracks
+- Single-track support
+- Double-track support
+- Bidirectional routing
+
+---
+
+## 🚄 Intelligent Train Dispatch
+
+- Express trains
+- Local trains
+- Freight trains
+
+Each category has
+
+- Independent speed
+- Priority level
+- Scheduling behavior
+
+Dispatch priority
+
+```
+Express
+   ↓
+Local
+   ↓
+Freight
 ```
 
-### 2. Build the C++ Backend Server
-Navigate to the backend build directory, generate the makefiles, and compile the engine:
+---
+
+## 🧠 Graph Routing
+
+Shortest path calculation using
+
+- Dijkstra Algorithm
+
+Automatically computes
+
+- Source → Destination route
+- Updated route after failures
+
+---
+
+## ⚡ Concurrent Simulation
+
+Each train runs independently using
+
+- std::thread
+
+Track segments become shared resources protected through
+
+- std::mutex
+- std::unique_lock
+- try_lock()
+
+allowing collision-free concurrent execution.
+
+---
+
+## 🛡 Kavach Style Collision Prevention
+
+When two trains request the same track
+
+- First train acquires lock
+- Second train waits
+- Track released
+- Waiting train continues
+
+No two trains occupy the same track simultaneously.
+
+---
+
+## 🚧 Dynamic Track Failure
+
+Track failures can be simulated during execution.
+
+The simulator
+
+- Removes failed edge
+- Recalculates shortest path
+- Switches to alternate route
+- Updates live telemetry
+
+If no alternate path exists
+
+- Journey stops safely
+- Event is logged
+
+---
+
+## 🐘 Wildlife Temporary Speed Restriction
+
+Wildlife crossings can be simulated.
+
+When activated
+
+- Train pauses
+- Journey resumes after clearance
+- Dashboard updates instantly
+
+---
+
+## 🚨 Emergency Stop
+
+Global Emergency Stop immediately
+
+- Pauses all train threads
+- Preserves simulation state
+- Prevents inconsistent execution
+
+Simulation can later resume safely.
+
+---
+
+## 📡 Live Telemetry
+
+Real-time dashboard displays
+
+- Running trains
+- Pending departures
+- Event logs
+- Active tracks
+- Locked resources
+- Simulation clock
+- Train status
+
+Updates are streamed through WebSockets.
+
+---
+
+# 🏗 High-Level Architecture
+
+<p align="center">
+<img src="docs/architecture/01_High_Level_Architecture.png" width="95%">
+</p>
+
+The browser communicates with the backend using persistent WebSocket connections.
+
+The Crow C++ server manages the simulation engine which internally coordinates routing, scheduling, multithreaded train execution and telemetry updates before broadcasting the current system state back to the dashboard.
+
+---
+
+# 🚄 Train Dispatch Workflow
+
+<p align="center">
+<img src="docs/architecture/02_Train_Dispatch_Workflow.png" width="70%">
+</p>
+
+Train creation follows the complete dispatch pipeline
+
+1. Dispatcher selects source and destination
+2. Train category selected
+3. Priority assigned
+4. Dijkstra computes shortest path
+5. Independent thread created
+6. Scheduler registers train
+7. Simulation begins
+8. Live telemetry continuously updates dashboard
+
+---
+
+# 🔒 Concurrency & Safety
+
+<p align="center">
+<img src="docs/architecture/03_Concurrency_Safety.png" width="90%">
+</p>
+
+Each railway track behaves like a shared operating system resource.
+
+Before entering a track, trains attempt to acquire ownership using non-blocking mutex locking.
+
+If the resource is unavailable
+
+- Train waits
+- Collision avoided
+- Lock retried
+- Journey continues once released
+
+---
+
+# 🔄 Dynamic Route Recalculation
+
+<p align="center">
+<img src="docs/architecture/04_Dynamic_Route_Recalculation.png" width="70%">
+</p>
+
+Whenever a track failure occurs
+
+- Failed edge removed
+- Graph updated
+- Dijkstra executed again
+- Alternate path selected
+- Live telemetry refreshed
+
+If no route exists the train safely terminates its journey.
+
+---
+
+# 📷 Screenshots
+
+## Dashboard
+
+<p align="center">
+<img src="docs/screenshots/dashboard.png" width="95%">
+</p>
+
+---
+
+## Dispatch Panel
+
+<p align="center">
+<img src="docs/screenshots/dispatch.png" width="70%">
+</p>
+
+---
+
+## Wildlife Event
+
+<p align="center">
+<img src="docs/screenshots/wildlife.png" width="95%">
+</p>
+
+---
+
+## Engineering Mode
+
+<p align="center">
+<img src="docs/screenshots/engineering.png" width="70%">
+</p>
+
+---
+
+## Emergency Stop
+
+<p align="center">
+<img src="docs/screenshots/emergency_stop.png" width="95%">
+</p>
+
+---
+
+## Live Railway Simulation
+
+<p align="center">
+
+<img src="docs/screenshots/train1.png" width="48%">
+<img src="docs/screenshots/train2.png" width="48%">
+
+</p>
+
+<p align="center">
+
+<img src="docs/screenshots/train3.png" width="48%">
+<img src="docs/screenshots/train4.png" width="48%">
+
+</p>
+
+---
+
+# ⚙ Technology Stack
+
+## Backend
+
+- C++17
+- Crow Framework
+- WebSockets
+- nlohmann/json
+
+---
+
+## Frontend
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+---
+
+## Concurrency
+
+- std::thread
+- std::mutex
+- std::unique_lock
+- std::atomic
+
+---
+
+## Algorithms
+
+- Dijkstra Shortest Path
+- Priority Scheduling
+- Graph Traversal
+
+---
+
+# 📂 Project Structure
+
+```
+SANRAKSHAN/
+
+│
+
+├── backend/
+
+├── frontend/
+
+├── docs/
+
+│ ├── banner.png
+
+│ ├── demo.gif
+
+│ ├── architecture/
+
+│ └── screenshots/
+
+│
+
+├── README.md
+
+└── LICENSE
+```
+
+---
+
+# 🚀 Getting Started
+
+## Clone Repository
+
 ```bash
-cd backend/build
+git clone https://github.com/yourusername/SANRAKSHAN.git
+
+cd SANRAKSHAN
+```
+
+---
+
+## Build Backend
+
+```bash
+cd backend
+
+mkdir build
+
+cd build
+
 cmake ..
+
 make
 ```
 
-### 3. Run the Server
-Start the simulation engine and WebSocket broadcaster:
+---
+
+## Start Server
+
 ```bash
 ./sanrakshan_server
 ```
-> The server will typically run on `localhost:8080`. Check your terminal output for confirmation.
-
-### 4. Launch the SCADA Frontend
-Navigate to the `frontend` folder and open `index.html` directly in your web browser.
-
-> Because it uses standard WebSockets to communicate with `localhost`, no separate web server (Nginx/Apache) is required for the frontend.
 
 ---
 
-## 🎮 How to Use & Demo
+## Launch Frontend
 
-| Action | How To |
-|--------|--------|
-| **Auto-Build Yard** | Click `[ AUTO-BUILD YARD ]` on the bottom left to instantly generate the default track topology |
-| **Dispatch a Train** | Click any station (e.g., `KALYAN`) to open the Central Dispatch modal. Enter a destination (e.g., `CST`), select priority, and authorize launch |
-| **Trigger Kavach** | Dispatch a Slow `Freight` train, then immediately dispatch a Fast `Express` train on the same route — the Express will autonomously brake and flash red |
-| **Trigger Wildlife TSR** | Left-click any track segment to toggle the Neon Elephant 🐘. Trains will freeze until the hazard is cleared |
-| **Sabotage Track** | Right-click any track to simulate a physical fault. The system will spark and incoming trains will attempt to reroute |
+Simply open
 
----
+```
+frontend/index.html
+```
 
-## 🧠 System Internals: OS Concepts Demonstrated
+The browser automatically connects to
 
-This project is built to demonstrate core Operating System and Concurrency concepts:
+```
+localhost:8080
+```
 
-1. **Thread Independence** — Every dispatched train is spawned as an independent `std::thread`, calculating its own physics and pathing.
-2. **Resource Allocation** — Track segments are shared resources protected by `std::mutex`.
-3. **Deadlock Avoidance** — Trains utilize `std::unique_lock` with `std::defer_lock` and `try_lock()` to probe tracks. Instead of a blocking `lock()` that could cause a Circular Wait, threads safely yield execution if a resource is unavailable.
-4. **Atomic Operations** — Global state variables (like Emergency Stop) use `std::atomic` to prevent data races across dozens of threads without the overhead of heavy locking mechanisms.
+through WebSockets.
 
 ---
 
-🤝 The Team
+# 🧪 Operating System Concepts Demonstrated
 
-1.Aaryamaan Rai
-2.Lavya Jain
+- Thread Creation
+- Synchronization
+- Resource Sharing
+- Non-blocking Mutex Locking
+- Deadlock Avoidance
+- Shared Resource Scheduling
+- Atomic Operations
+- Event Driven Systems
 
 ---
 
-## 📄 License
+# 🎯 Future Improvements
 
-This project is licensed under the [MIT License](LICENSE).
+- Automatic track repair
+- Distributed railway simulation
+- Passenger scheduling
+- Timetable optimization
+- AI dispatch assistant
+- Deadlock visualization
+- Persistent save/load
+- Railway analytics dashboard
+
+---
+
+# 👨‍💻 Team
+
+**Lavya Jain**
+
+**Aaryamaan Rai**
+
+---
+
+# 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+<p align="center">
+
+⭐ If you found this project interesting, consider giving it a star.
+
+</p>
