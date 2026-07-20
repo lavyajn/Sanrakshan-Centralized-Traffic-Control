@@ -380,7 +380,7 @@ SANRAKSHAN/
 ## Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/SANRAKSHAN.git
+git clone https://github.com/lavyajn/Sanrakshan-Centralized-Traffic-Control
 
 cd SANRAKSHAN
 ```
